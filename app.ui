@@ -118,7 +118,20 @@
      </rect>
     </property>
     <property name="text">
-     <string>Konfiguration...</string>
+     <string>Einstellungen</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="clean_btn">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>250</y>
+      <width>121</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Reinigen</string>
     </property>
    </widget>
   </widget>
@@ -132,11 +145,12 @@
     </rect>
    </property>
    <widget class="QMenu" name="menuMen">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="title">
      <string>Menü</string>
     </property>
-    <addaction name="actionBechergr_e"/>
-    <addaction name="actionKonfiguration"/>
    </widget>
    <addaction name="menuMen"/>
   </widget>

@@ -31,7 +31,8 @@ drink_list = [
                 "name": "Hurricane",
                 "ingredients": {
                     "rum": 40,
-                    "cola": 160
+                    "orange": 150,
+                    "syrup": 10
                 }
         },
         {
@@ -51,8 +52,10 @@ drink_list = [
         }, {
                 "name": "Long-Island",
                 "ingredients": {
-                    "vodka": 40,
-                    "orange": 160
+                    "rum": 40,
+                    "tequila": 40,
+                    "orange": 40,
+                    "cola": 60
                 }
         }
 ]
@@ -100,36 +103,4 @@ pump_config = [
     },
 ]
 
-main_options  = [
-    {
-        "name": "COCKTAILS",
-        "GPIO": 20,
-        "value": "rum"
-    },
-    {
-        "name": "FLASCHEN",
-        "GPIO": 20,
-        "value": "rum"
-    },
-    {
-        "name": "REINIGUNG",
-        "GPIO": 20,
-        "value": "rum"
-    }  
-]
-
-
-def testing():
-    test = ['rum', 'cola', 'fanta', 'sprite', 'korn']
-    list = ['rum', 'fanta', 'cola','korn', 'sprite']
-    list_status = 0
-    for i in list:
-        if i in test:
-            list_status += 1
-    if list_status == len(test):
-        return True
-    else: return False
-    
-
-
-print(testing())
+options = ["rum", "vodka", "tequila", "gin", "whisky", "orange", "cola", "lime", "syrup", "tonic", "sprite", "grapefruit", "maracuja", "mango", "coco"]

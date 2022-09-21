@@ -1,10 +1,22 @@
 from PyQt5 import QtWidgets, uic, QtCore ,QtTest, QtGui
 from PyQt5.QtCore import QThread, pyqtSignal, QSize
 from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
 import sys
-from config import drink_list, pump_config
+from config import drink_list, pump_config, options
 import time
 import json
+
+
+"""GPIO Outputs:
+    Pump1: 31
+    Pump2: 32
+    Pump3: 33
+    Pump4: 35
+    Pump5: 36
+    Pump6: 37
+    Pump7: 38
+    Pump8: 40"""
 
 class ProgressThread(QThread):
     _progSignal = pyqtSignal(int)
@@ -40,15 +52,112 @@ class SettingsWindow(QWidget):
         super().__init__()
         uic.loadUi('PumpSet.ui', self)
 
+        self.change_btn1 = self.findChild(QtWidgets.QPushButton, 'pushButton') 
+        self.change_btn1.clicked.connect(lambda: self.change_btn_clicked(1))
+
+        self.change_btn2 = self.findChild(QtWidgets.QPushButton, 'pushButton_2') 
+        self.change_btn2.clicked.connect(lambda: self.change_btn_clicked(2))
+
+        self.change_btn3 = self.findChild(QtWidgets.QPushButton, 'pushButton_3') 
+        self.change_btn3.clicked.connect(lambda: self.change_btn_clicked(3))
+
+        self.change_btn4 = self.findChild(QtWidgets.QPushButton, 'pushButton_4') 
+        self.change_btn4.clicked.connect(lambda: self.change_btn_clicked(4))
+
+        self.change_btn5 = self.findChild(QtWidgets.QPushButton, 'pushButton_5') 
+        self.change_btn5.clicked.connect(lambda: self.change_btn_clicked(5))
+
+        self.change_btn6 = self.findChild(QtWidgets.QPushButton, 'pushButton_6') 
+        self.change_btn6.clicked.connect(lambda: self.change_btn_clicked(6))
+
+        self.change_btn7 = self.findChild(QtWidgets.QPushButton, 'pushButton_7') 
+        self.change_btn7.clicked.connect(lambda: self.change_btn_clicked(7))
+
+        self.change_btn8 = self.findChild(QtWidgets.QPushButton, 'pushButton_8') 
+        self.change_btn8.clicked.connect(lambda: self.change_btn_clicked(8))
+
+        self.show_pump_sets()
+
+    def show_pump_sets(self):
+
+            self.pump_list = Ui.return_pumps(self)
+
+            self.label1 = self.findChild(QtWidgets.QLabel, 'label1')
+            self.label1.setText((self.pump_list[0]['name']).upper())
+
+            self.label1 = self.findChild(QtWidgets.QLabel, 'label2')
+            self.label1.setText((self.pump_list[1]['name']).upper())
+
+            self.label1 = self.findChild(QtWidgets.QLabel, 'label3')
+            self.label1.setText((self.pump_list[2]['name']).upper())
+
+            self.label1 = self.findChild(QtWidgets.QLabel, 'label4')
+            self.label1.setText((self.pump_list[3]['name']).upper())
+
+            self.label1 = self.findChild(QtWidgets.QLabel, 'label5')
+            self.label1.setText((self.pump_list[4]['name']).upper())
+
+            self.label1 = self.findChild(QtWidgets.QLabel, 'label6')
+            self.label1.setText((self.pump_list[5]['name']).upper())
+
+            self.label1 = self.findChild(QtWidgets.QLabel, 'label7')
+            self.label1.setText((self.pump_list[6]['name']).upper())
+
+            self.label1 = self.findChild(QtWidgets.QLabel, 'label8')
+            self.label1.setText((self.pump_list[7]['name']).upper())
+
+
+    def change_btn_clicked(self, number):
+        self.pump_win = PumpWindow(number)
+        self.pump_win.pump_win_closed.connect(self.show_pump_sets)
+        self.pump_win.show()
+        print(number)
+
+
 class SizeWindow(QWidget):
     def __init__(self):
         super().__init__()
         uic.loadUi('sizeSet.ui', self)
 
 class PumpWindow(QWidget):
-    def __init__(self):
+    pump_win_closed = pyqtSignal()
+    def __init__(self, number):
         super().__init__()
-        uic.loadUi('sizeSet.ui', self)
+        uic.loadUi('PumpSelection.ui', self)
+        self.number = number
+        self.label = self.findChild(QtWidgets.QLabel, 'label')
+        self.label.setText(f'Pumpe {self.number}')
+
+        self.pump_list = Ui.return_pumps(self)
+
+        self.save_btn = self.findChild(QtWidgets.QPushButton, 'pushButton')
+        self.save_btn.clicked.connect(self.save_pump_selection) 
+
+        self.sel_label = self.findChild(QtWidgets.QLabel, 'label_3')
+        self.sel_label.setText(self.pump_list[(number -1)]['name'].upper())
+
+        self.options_list = self.findChild(QtWidgets.QListWidget, 'listWidget')
+        self.options_list.itemClicked.connect(self.list_handler)
+        index = 0
+        for i in options:
+            self.options_list.insertItem(index, i.upper())
+            index += 1
+
+
+    def list_handler(self):
+        self.sel_label.setText((self.options_list.currentItem().text()).upper())
+
+    def save_pump_selection(self):
+        with open('pump_config.json', 'r') as jsonFile:
+            data = json.load(jsonFile)
+        data[(self.number - 1)]['name'] = self.options_list.currentItem().text().lower()
+
+        with open('pump_config.json', 'w') as jsonFile:
+            json.dump(data, jsonFile)
+        #SettingsWindow.show_pump_sets(self)
+        self.pump_win_closed.emit()
+        self.close()
+
 
 
 
@@ -88,7 +197,12 @@ class Ui(QtWidgets.QMainWindow):
         self.statusbar = self.findChild(QtWidgets.QStatusBar, 'statusbar')
 
         self.settings_btn = self.findChild(QtWidgets.QPushButton, 'settingsButton') 
+        #self.settings_btn.setIcon(QIcon('settings.png'))
         self.settings_btn.clicked.connect(self.settings_btn_clicked)
+
+        self.clean_btn = self.findChild(QtWidgets.QPushButton, 'clean_btn') 
+        #self.settings_btn.setIcon(QIcon('settings.png'))
+        self.clean_btn.clicked.connect(self.clean_btn_clicked)
 
 
 
@@ -100,7 +214,8 @@ class Ui(QtWidgets.QMainWindow):
         self.selected = False
         self.cocktail_number = 0
         self.show_cocktail_list()
-
+    def return_pumps(Self):
+        return json.load(open('pump_config.json'))
 
     def get_pumps(self):
         self.pump_list= json.load(open('pump_config.json'))
@@ -110,16 +225,33 @@ class Ui(QtWidgets.QMainWindow):
         self.selected = False
         self.list_widget.clear()
         self.manual_mode = False
+        self.get_pumps()
+        self.pump_names = []
+        self.filtered_drinks = []
+        for p in self.pump_list:
+            self.pump_names.append(p['name'])
+        print(self.pump_names)
         index = 0
+        for drink in drink_list:
+            status = 0
+            for ing in drink['ingredients'].keys():
+                if ing in self.pump_names:
+                    status +=1
+            if status == len(drink['ingredients']):
+                self.list_widget.insertItem(index, drink['name'].upper())
+                self.filtered_drinks.append(drink)
+                index += 1
+        """index = 0
         for i in drink_list:
             self.list_widget.insertItem(index, i['name'].upper())
-            index += 1
+            index += 1"""
         self.toggle_btn.setText('Manuell...')
         self.action_btn.setText('START')
         self.name_label.setText('<-- Bitte auswählen')
         self.action_btn.hide()
 
     def show_manu_list(self):
+        self.get_pumps()
         self.selected = False
         self.list_widget.clear()
         self.manual_mode = True
@@ -246,10 +378,18 @@ class Ui(QtWidgets.QMainWindow):
         self.size_window = SizeWindow()
         self.size_window.show()
 
+    def clean_btn_clicked(self):
+        clean_box = QMessageBox()
+        clean_box.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+        clean_box.setText('Reinigen')
+        clean_box.setIcon(QMessageBox.Question)
+        clean_box.setInformativeText('Starten?')
+        clean_box.exec()
+
 
     def option_btn_pressed(self):
         ings = []
-        for i in drink_list[self.list_widget.currentRow()]['ingredients'].keys():
+        for i in self.filtered_drinks[self.list_widget.currentRow()]['ingredients'].keys():
             ings.append(i)
         message = '\n'.join(ings).upper()
         msbx = QMessageBox()
