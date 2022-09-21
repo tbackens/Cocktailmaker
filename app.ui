@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>480</width>
-    <height>320</height>
+    <height>304</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -134,25 +134,6 @@
      <string>Reinigen</string>
     </property>
    </widget>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>480</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menuMen">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="title">
-     <string>Menü</string>
-    </property>
-   </widget>
-   <addaction name="menuMen"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionSettings">
