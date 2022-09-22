@@ -11,7 +11,7 @@ import json
 """GPIO Outputs:
     Pump1: 31
     Pump2: 32
-    Pump3: 33
+    Pump3: 33g
     Pump4: 35
     Pump5: 36
     Pump6: 37
@@ -52,6 +52,9 @@ class SettingsWindow(QWidget):
         super().__init__()
         uic.loadUi('PumpSet.ui', self)
 
+        self.setWindowFlags(self.windowFlags() | QtCore.Qt.FramelessWindowHint)
+        self.showMaximized()
+
         self.change_btn1 = self.findChild(QtWidgets.QPushButton, 'pushButton') 
         self.change_btn1.clicked.connect(lambda: self.change_btn_clicked(1))
 
@@ -75,6 +78,10 @@ class SettingsWindow(QWidget):
 
         self.change_btn8 = self.findChild(QtWidgets.QPushButton, 'pushButton_8') 
         self.change_btn8.clicked.connect(lambda: self.change_btn_clicked(8))
+
+        self.save_btn = self.findChild(QtWidgets.QPushButton, 'pushButton_9') 
+        self.save_btn.clicked.connect(self.save_btn_clicked)
+
 
         self.show_pump_sets()
 
@@ -113,6 +120,8 @@ class SettingsWindow(QWidget):
         self.pump_win.show()
         print(number)
 
+    def save_btn_clicked(self):
+        self.close()
 
 class SizeWindow(QWidget):
     def __init__(self):
@@ -167,6 +176,8 @@ class Ui(QtWidgets.QMainWindow):
         super().__init__()
         uic.loadUi('app.ui', self)
         #self.show()
+        self.setWindowFlags(self.windowFlags() | QtCore.Qt.FramelessWindowHint)
+        self.showMaximized()
 
         self.action_btn = self.findChild(QtWidgets.QPushButton, 'action_btn') 
         self.action_btn.clicked.connect(self.start_request)
@@ -418,5 +429,6 @@ class Ui(QtWidgets.QMainWindow):
 
 app = QtWidgets.QApplication(sys.argv)
 window = Ui()
+
 window.show()
 app.exec_()
