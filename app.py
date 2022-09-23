@@ -254,6 +254,7 @@ class Ui(QtWidgets.QMainWindow):
         for pump in self.pump_list:
             GPIO.setup(pump['GPIO'], GPIO.OUT)
             GPIO.output(pump['GPIO'], GPIO.HIGH)
+            print(pump['GPIO'])
 
 
     def show_cocktail_list(self):
