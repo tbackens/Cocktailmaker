@@ -139,6 +139,9 @@ class PumpWindow(QWidget):
 
         self.pump_list = Ui.return_pumps(self)
 
+        self.deact_btn = self.findChild(QtWidgets.QPushButton, 'deact_btn')
+        self.deact_btn.clicked.connect(self.deactivate_pump)
+
         self.save_btn = self.findChild(QtWidgets.QPushButton, 'pushButton')
         self.save_btn.clicked.connect(self.save_pump_selection) 
 
@@ -151,15 +154,22 @@ class PumpWindow(QWidget):
         for i in options:
             self.options_list.insertItem(index, i.upper())
             index += 1
+        self.pump_selection = self.pump_list[(number -1)]['name'].lower()
 
 
     def list_handler(self):
         self.sel_label.setText((self.options_list.currentItem().text()).upper())
+        self.pump_selection = self.options_list.currentItem().text().lower()
+
+    def deactivate_pump(self):
+        self.pump_selection = "none"
+        self.save_pump_selection()
+
 
     def save_pump_selection(self):
         with open('pump_config.json', 'r') as jsonFile:
             data = json.load(jsonFile)
-        data[(self.number - 1)]['name'] = self.options_list.currentItem().text().lower()
+        data[(self.number - 1)]['name'] = self.pump_selection
 
         with open('pump_config.json', 'w') as jsonFile:
             json.dump(data, jsonFile)
