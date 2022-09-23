@@ -7,6 +7,8 @@ from config import drink_list, pump_config, options
 import time
 import json
 
+import RPi.GPIO as GPIO
+
 
 """GPIO Outputs:
     Pump1: 31
@@ -229,17 +231,27 @@ class Ui(QtWidgets.QMainWindow):
 
         self.pump_list = []
         self.get_pumps()
+        self.gpio_init()
 
         self.manual_mode = False
         self.pumping = False
         self.selected = False
         self.cocktail_number = 0
         self.show_cocktail_list()
+
+
+
     def return_pumps(Self):
         return json.load(open('pump_config.json'))
 
     def get_pumps(self):
         self.pump_list= json.load(open('pump_config.json'))
+
+    def gpio_init(self):
+        for pump in self.pump_list:
+            self.get_pumps()
+            GPIO.setup(pump['GPIO'], GPIO.OUT)
+            GPIO.output(pump['GPIO'], GPIO.HIGH)
 
 
     def show_cocktail_list(self):
