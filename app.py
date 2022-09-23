@@ -248,8 +248,8 @@ class Ui(QtWidgets.QMainWindow):
         self.pump_list= json.load(open('pump_config.json'))
 
     def gpio_init(self):
+        self.get_pumps()
         for pump in self.pump_list:
-            self.get_pumps()
             GPIO.setup(pump['GPIO'], GPIO.OUT)
             GPIO.output(pump['GPIO'], GPIO.HIGH)
 
