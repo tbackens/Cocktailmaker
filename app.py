@@ -43,7 +43,7 @@ class PumpThread(QThread):
         self.wait()
     def run(self):
         for ing, pump, value, gpio in zip(self.ings, self.pumps, self.values, self.gpio):
-            print(f'Pump {pump}, {value}ml. GPIO: {gpio}')
+            print(f'Pump {pump}, {ing}, {value}ml. GPIO: {gpio}')
             self._statusSignal.emit(f'PUMPE {pump}: {ing} -- {value}ml')
             time.sleep(value * self.factor)
 
@@ -293,7 +293,7 @@ class Ui(QtWidgets.QMainWindow):
                 req_box.setIcon(QMessageBox.Question)
                 req_box.setInformativeText('Starten?')
                 ings = []
-                for i in drink_list[self.list_widget.currentRow()]['ingredients'].keys():
+                for i in self.filtered_drinks[self.list_widget.currentRow()]['ingredients'].keys():
                     ings.append(i)
                 message = '\n'.join(ings).upper()
                 req_box.setDetailedText(message)
@@ -328,13 +328,13 @@ class Ui(QtWidgets.QMainWindow):
                 runtime = 0
                 self.get_pumps()
                 for pump in self.pump_list:
-                    if pump['name'] in drink_list[self.list_widget.currentRow()]['ingredients'].keys():
+                    if pump['name'] in self.filtered_drinks[self.list_widget.currentRow()]['ingredients'].keys():
                         pumps.append(pump['pump'])
                         gpio.append(pump['GPIO'])
-                for value in drink_list[self.list_widget.currentRow()]['ingredients'].values():
+                for value in self.filtered_drinks[self.list_widget.currentRow()]['ingredients'].values():
                     values.append(value)
                     runtime += (value * factor)
-                for ing in drink_list[self.list_widget.currentRow()]['ingredients'].keys():
+                for ing in self.filtered_drinks[self.list_widget.currentRow()]['ingredients'].keys():
                     ings.append(ing)
                 
                 self.pump_thread = PumpThread(ings, pumps, values, gpio, factor)
