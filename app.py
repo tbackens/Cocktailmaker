@@ -9,6 +9,8 @@ import json
 
 import RPi.GPIO as GPIO
 
+GPIO.setmode(GPIO.BOARD)
+
 
 """GPIO Outputs:
     Pump1: 31
