@@ -36,18 +36,18 @@ drink_list = [
                 }
         },
         {
-                "name": "Caipi",
+                "name": "Whisky-Sour",
                 "ingredients": {
                     "whisky": 40,
-                    "lime": 20,
-                    "sprite": 150,
+                    "lime": 40,
+                    "syrup": 10,
                 }
         }, {
-                "name": "Mojito",
+                "name": "Pina-Colada",
                 "ingredients": {
                     "rum": 40,
-                    "syrup": 10,
-                    "lime": 20
+                    "coco": 40,
+                    "pineapple": 100
                 }
         }, {
                 "name": "Long-Island",
@@ -56,6 +56,40 @@ drink_list = [
                     "tequila": 40,
                     "orange": 40,
                     "cola": 60
+                }
+        }, {
+                "name": "Mai Tai",
+                "ingredients": {
+                    "rum": 40,
+                    "pineapple": 150,
+                    "syrup": 10
+                }
+        }, {
+                "name": "Cuba Libre",
+                "ingredients": {
+                    "rum": 40,
+                    "cola": 150,
+                    "lime": 10
+                }
+        }, {
+                "name": "Margarita",
+                "ingredients": {
+                    "tequila": 50,
+                    "syrup": 50
+                }
+        }, {
+                "name": "Gin-Tonic",
+                "ingredients": {
+                    "gin": 40,
+                    "tonic": 160
+                }
+        }, {
+                "name": "Planters",
+                "ingredients": {
+                    "rum": 40,
+                    "pineapple": 60,
+                    "orange": 60,
+                    "syrup": 20
                 }
         }
 ]
@@ -103,4 +137,4 @@ pump_config = [
     },
 ]
 
-options = ["rum", "vodka", "tequila", "gin", "whisky", "orange", "cola", "lime", "syrup", "tonic", "sprite", "grapefruit", "maracuja", "mango", "coco"]
+options = ["rum", "vodka", "tequila", "gin", "whisky", "orange", "cola", "sprite", "fanta", "lime", "syrup", "tonic", "sprite", "grapefruit", "maracuja", "mango", "coco", "pineapple"]
