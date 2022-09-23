@@ -1,5 +1,1 @@
-<<<<<<< HEAD
 [{"name": "rum", "GPIO": 29, "pump": 0}, {"name": "tequila", "GPIO": 31, "pump": 1}, {"name": "cola", "GPIO": 33, "pump": 2}, {"name": "orange", "GPIO": 36, "pump": 3}, {"name": "lime", "GPIO": 35, "pump": 4}, {"name": "grapefruit", "GPIO": 38, "pump": 5}, {"name": "maracuja", "GPIO": 40, "pump": 6}, {"name": "syrup", "GPIO": 37, "pump": 7}]
-=======
-[{"name": "rum", "GPIO": 29, "pump": 0}, {"name": "tequila", "GPIO": 31, "pump": 1}, {"name": "cola", "GPIO": 33, "pump": 2}, {"name": "orange", "GPIO": 36, "pump": 3}, {"name": "lime", "GPIO": 35, "pump": 4}, {"name": "syrup", "GPIO": 38, "pump": 5}, {"name": "mango", "GPIO": 40, "pump": 6}, {"name": "cola", "GPIO": 37, "pump": 7}]
->>>>>>> df4e1656aacb2eb8ade4f716d08302f06cf8f449
