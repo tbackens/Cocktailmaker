@@ -398,14 +398,14 @@ class Ui(QtWidgets.QMainWindow):
             if self.manual_mode:
                 print(f'pump {self.list_widget.currentRow()} START! -- {self.list_widget.currentItem().text()}')
                 self.statusbar.showMessage(f'PUMPE LÄUFT! -- {self.list_widget.currentItem().text()}')
-                GPIO.output(self.pump_list[self.list_widget.currentRow]['GPIO'], GPIO.HIGH)
+                GPIO.output(self.pump_list[self.list_widget.currentRow()]['GPIO'], GPIO.HIGH)
         except AttributeError:
             print("no selection!")
 
     def action_release(self):
         try:
             if self.manual_mode:
-                GPIO.output(self.pump_list[self.list_widget.currentRow]['GPIO'], GPIO.LOW)
+                GPIO.output(self.pump_list[self.list_widget.currentRow()]['GPIO'], GPIO.LOW)
                 print(f'pump {self.list_widget.currentRow()} STOP! -- {self.list_widget.currentItem().text()}')
                 self.statusbar.showMessage(f'PUMPE GESTOPPT! -- {self.list_widget.currentItem().text()}', 2000)
         except AttributeError:
