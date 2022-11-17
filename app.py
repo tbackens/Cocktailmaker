@@ -254,8 +254,8 @@ class Ui(QtWidgets.QMainWindow):
     def gpio_init(self):
         self.get_pumps()
         for pump in self.pump_list:
-            #GPIO.setup(pump['GPIO'], GPIO.OUT)
-            #GPIO.output(pump['GPIO'], GPIO.LOW)
+            GPIO.setup(pump['GPIO'], GPIO.OUT)
+            GPIO.output(pump['GPIO'], GPIO.LOW)
             print(pump['GPIO'])
 
 
