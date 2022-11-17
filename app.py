@@ -49,7 +49,9 @@ class PumpThread(QThread):
         for ing, pump, value, gpio in zip(self.ings, self.pumps, self.values, self.gpio):
             print(f'Pump {pump}, {ing}, {value}ml. GPIO: {gpio}')
             self._statusSignal.emit(f'PUMPE {pump}: {ing} -- {value}ml')
+            GPIO.output(gpio, GPIO.HIGH)
             time.sleep(value * self.factor)
+            GPIO.output(gpio, GPIO.LOW)
 
 class SettingsWindow(QWidget):
     def __init__(self):
@@ -252,8 +254,8 @@ class Ui(QtWidgets.QMainWindow):
     def gpio_init(self):
         self.get_pumps()
         for pump in self.pump_list:
-            GPIO.setup(pump['GPIO'], GPIO.OUT)
-            GPIO.output(pump['GPIO'], GPIO.HIGH)
+            #GPIO.setup(pump['GPIO'], GPIO.OUT)
+            #GPIO.output(pump['GPIO'], GPIO.LOW)
             print(pump['GPIO'])
 
 
@@ -395,13 +397,17 @@ class Ui(QtWidgets.QMainWindow):
         try:
             if self.manual_mode:
                 print(f'pump {self.list_widget.currentRow()} START! -- {self.list_widget.currentItem().text()}')
+                self.statusbar.showMessage(f'PUMPE LÄUFT! -- {self.list_widget.currentItem().text()}')
+                GPIO.output(self.pump_list[self.list_widget.currentRow]['GPIO'], GPIO.HIGH)
         except AttributeError:
             print("no selection!")
 
     def action_release(self):
         try:
             if self.manual_mode:
+                GPIO.output(self.pump_list[self.list_widget.currentRow]['GPIO'], GPIO.LOW)
                 print(f'pump {self.list_widget.currentRow()} STOP! -- {self.list_widget.currentItem().text()}')
+                self.statusbar.showMessage(f'PUMPE GESTOPPT! -- {self.list_widget.currentItem().text()}', 2000)
         except AttributeError:
             print("no selection!")
 

@@ -75,7 +75,8 @@ drink_list = [
                 "name": "Margarita",
                 "ingredients": {
                     "tequila": 50,
-                    "syrup": 50
+                    "syrup": 20,
+                    "lime": 50
                 }
         }, {
                 "name": "Gin-Tonic",
