@@ -363,8 +363,8 @@ class Ui(QtWidgets.QMainWindow):
                 values = []
                 runtime = 0
                 self.get_pumps()
+                print(self.pump_list)
 
-                print(self.filtered_drinks[self.list_widget.currentRow()]['ingredients'].keys())
                 for pump in self.pump_list:
                     if pump['name'] in self.filtered_drinks[self.list_widget.currentRow()]['ingredients'].keys():
                         pumps.append(pump['pump'])
@@ -374,6 +374,12 @@ class Ui(QtWidgets.QMainWindow):
                     runtime += (value * factor)
                 for ing in self.filtered_drinks[self.list_widget.currentRow()]['ingredients'].keys():
                     ings.append(ing)
+
+                print(pumps)
+                print(ings)
+                print(gpio)
+                print(values)
+
                 
                 self.pump_thread = PumpThread(ings, pumps, values, gpio, factor)
                 self.pump_thread._statusSignal.connect(self.status_signal)
