@@ -248,14 +248,15 @@ class Ui(QtWidgets.QMainWindow):
 
     def return_pumps(Self):
         pumps = []
-        file = json.load(open('pump_config.json'))
-        pumps = file
+        file = open('pump_config.json')
+        data = json.load(file)
         file.close()
-        return pumps
+        return data
 
     def get_pumps(self):
-        file = json.load(open('pump_config.json'))
-        self.pump_list= file
+        file = open('pump_config.json')
+        data = json.load(file)
+        self.pump_list= data
         file.close()
 
     def gpio_init(self):
