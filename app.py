@@ -407,6 +407,7 @@ class Ui(QtWidgets.QMainWindow):
             if self.manual_mode:
                 print(f'pump {self.list_widget.currentRow()} START! -- {self.list_widget.currentItem().text()}')
                 self.statusbar.showMessage(f'PUMPE LÄUFT! -- {self.list_widget.currentItem().text()}')
+                print(self.pump_list[self.list_widget.currentRow()]['GPIO'])
                 GPIO.output(self.pump_list[self.list_widget.currentRow()]['GPIO'], GPIO.HIGH)
         except AttributeError:
             print("no selection!")
