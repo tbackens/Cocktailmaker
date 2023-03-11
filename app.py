@@ -364,7 +364,7 @@ class Ui(QtWidgets.QMainWindow):
                 runtime = 0
                 self.get_pumps()
 
-                print(self.list_widget.currentRow()]['ingredients'].keys())
+                print(self.filtered_drinks[self.list_widget.currentRow()]['ingredients'].keys())
                 for pump in self.pump_list:
                     if pump['name'] in self.filtered_drinks[self.list_widget.currentRow()]['ingredients'].keys():
                         pumps.append(pump['pump'])
