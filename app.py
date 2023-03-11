@@ -257,6 +257,7 @@ class Ui(QtWidgets.QMainWindow):
         file = open('pump_config.json')
         data = json.load(file)
         self.pump_list= data
+        print(self.pump_list)
         file.close()
 
     def gpio_init(self):
