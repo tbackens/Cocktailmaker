@@ -179,6 +179,7 @@ class PumpWindow(QWidget):
 
         with open('pump_config.json', 'w') as jsonFile:
             json.dump(data, jsonFile)
+        jsonFile.close()
         #SettingsWindow.show_pump_sets(self)
         self.pump_win_closed.emit()
         self.close()
@@ -246,10 +247,16 @@ class Ui(QtWidgets.QMainWindow):
 
 
     def return_pumps(Self):
-        return json.load(open('pump_config.json'))
+        pumps = []
+        file = json.load(open('pump_config.json'))
+        pumps = file
+        file.close()
+        return pumps
 
     def get_pumps(self):
-        self.pump_list= json.load(open('pump_config.json'))
+        file = json.load(open('pump_config.json'))
+        self.pump_list= file
+        file.close()
 
     def gpio_init(self):
         self.get_pumps()
