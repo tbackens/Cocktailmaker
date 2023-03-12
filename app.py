@@ -1,5 +1,5 @@
-from PyQt5 import QtWidgets, uic, QtCore ,QtTest, QtGui
-from PyQt5.QtCore import QThread, pyqtSignal, QSize
+from PyQt5 import QtWidgets, uic, QtCore
+from PyQt5.QtCore import QThread, pyqtSignal
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 import sys
@@ -10,6 +10,7 @@ import json
 import RPi.GPIO as GPIO
 
 GPIO.setmode(GPIO.BOARD)
+GPIO.setwarnings(False)
 
 
 """GPIO Outputs:
