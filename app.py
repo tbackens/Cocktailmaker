@@ -369,11 +369,17 @@ class Ui(QtWidgets.QMainWindow):
                     if pump['name'] in self.filtered_drinks[self.list_widget.currentRow()]['ingredients'].keys():
                         pumps.append(pump['pump'])
                         gpio.append(pump['GPIO'])
-                for value in self.filtered_drinks[self.list_widget.currentRow()]['ingredients'].values():
-                    values.append(value)
+                        values.append(self.filtered_drinks[self.list_widget.currentRow()]['ingredients'][pump['name']])
+                        ings.append(pump['name'])
+
+                for value in values:
                     runtime += (value * factor)
-                for ing in self.filtered_drinks[self.list_widget.currentRow()]['ingredients'].keys():
-                    ings.append(ing)
+
+                #for value in self.filtered_drinks[self.list_widget.currentRow()]['ingredients'].values():
+                #    values.append(value)
+                #    runtime += (value * factor)
+                #for ing in self.filtered_drinks[self.list_widget.currentRow()]['ingredients'].keys():
+                #    ings.append(ing)
 
                 print(pumps)
                 print(ings)
