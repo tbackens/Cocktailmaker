@@ -48,7 +48,6 @@ class PumpThread(QThread):
         self.wait()
     def run(self):
         for ing, pump, value, gpio in zip(self.ings, self.pumps, self.values, self.gpio):
-            print(f'Pump {pump}, {ing}, {value}ml. GPIO: {gpio}')
             self._statusSignal.emit(f'PUMPE {pump + 1}: {ing} -- {value}ml')
             GPIO.output(gpio, GPIO.HIGH)
             time.sleep(value * self.factor)
@@ -125,7 +124,6 @@ class SettingsWindow(QWidget):
         self.pump_win = PumpWindow(number)
         self.pump_win.pump_win_closed.connect(self.show_pump_sets)
         self.pump_win.show()
-        print(number)
 
     def save_btn_clicked(self):
         self.close()
@@ -258,7 +256,6 @@ class Ui(QtWidgets.QMainWindow):
         file = open('pump_config.json')
         data = json.load(file)
         self.pump_list= data
-        print(self.pump_list)
         file.close()
 
     def gpio_init(self):
@@ -266,7 +263,7 @@ class Ui(QtWidgets.QMainWindow):
         for pump in self.pump_list:
             GPIO.setup(pump['GPIO'], GPIO.OUT)
             GPIO.output(pump['GPIO'], GPIO.LOW)
-            print(pump['GPIO'])
+            print(f'GPIO {pump["GPIO"]} initialized.')
 
 
     def show_cocktail_list(self):
@@ -278,7 +275,6 @@ class Ui(QtWidgets.QMainWindow):
         self.filtered_drinks = []
         for p in self.pump_list:
             self.pump_names.append(p['name'])
-        print(self.pump_names)
         index = 0
         for drink in drink_list:
             status = 0
@@ -289,10 +285,7 @@ class Ui(QtWidgets.QMainWindow):
                 self.list_widget.insertItem(index, drink['name'].upper())
                 self.filtered_drinks.append(drink)
                 index += 1
-        """index = 0
-        for i in drink_list:
-            self.list_widget.insertItem(index, i['name'].upper())
-            index += 1"""
+
         self.toggle_btn.setText('Manuell...')
         self.action_btn.setText('START')
         self.name_label.setText('<-- Bitte auswählen')
@@ -354,7 +347,6 @@ class Ui(QtWidgets.QMainWindow):
     def start(self):
         if not self.manual_mode and self.selected == True:
             try:
-                print(self.list_widget.currentRow(), self.list_widget.currentItem().text())
                 self.hide_buttons()
                 self.cocktail_number = self.list_widget.currentRow()
                 factor = 0.1
@@ -364,30 +356,16 @@ class Ui(QtWidgets.QMainWindow):
                 values = []
                 runtime = 0
                 self.get_pumps()
-                print(self.pump_list)
-
+                
                 for pump in self.pump_list:
                     if pump['name'] in self.filtered_drinks[self.list_widget.currentRow()]['ingredients'].keys():
                         pumps.append(pump['pump'])
                         gpio.append(pump['GPIO'])
                         values.append(self.filtered_drinks[self.list_widget.currentRow()]['ingredients'][pump['name']])
                         ings.append(pump['name'])
-
                 for value in values:
                     runtime += (value * factor)
 
-                #for value in self.filtered_drinks[self.list_widget.currentRow()]['ingredients'].values():
-                #    values.append(value)
-                #    runtime += (value * factor)
-                #for ing in self.filtered_drinks[self.list_widget.currentRow()]['ingredients'].keys():
-                #    ings.append(ing)
-
-                print(pumps)
-                print(ings)
-                print(gpio)
-                print(values)
-
-                
                 self.pump_thread = PumpThread(ings, pumps, values, gpio, factor)
                 self.pump_thread._statusSignal.connect(self.status_signal)
                 self.pump_thread.start()
@@ -430,7 +408,6 @@ class Ui(QtWidgets.QMainWindow):
         try:
             if self.manual_mode:
                 GPIO.output(self.pump_list[self.list_widget.currentRow()]['GPIO'], GPIO.LOW)
-                print(f'pump {self.list_widget.currentRow()} STOP! -- {self.list_widget.currentItem().text()}')
                 self.statusbar.showMessage(f'PUMPE GESTOPPT! -- {self.list_widget.currentItem().text()}', 2000)
         except AttributeError:
             print("no selection!")
