@@ -14,10 +14,10 @@ GPIO.setwarnings(False)
 
 
 """GPIO Outputs:
-    Pump1: 31
-    Pump2: 32
-    Pump3: 33g
-    Pump4: 35
+    Pump1: 29
+    Pump2: 31
+    Pump3: 32
+    Pump4: 33
     Pump5: 36
     Pump6: 37
     Pump7: 38
@@ -49,7 +49,7 @@ class PumpThread(QThread):
     def run(self):
         for ing, pump, value, gpio in zip(self.ings, self.pumps, self.values, self.gpio):
             print(f'Pump {pump}, {ing}, {value}ml. GPIO: {gpio}')
-            self._statusSignal.emit(f'PUMPE {pump}: {ing} -- {value}ml')
+            self._statusSignal.emit(f'PUMPE {pump + 1}: {ing} -- {value}ml')
             GPIO.output(gpio, GPIO.HIGH)
             time.sleep(value * self.factor)
             GPIO.output(gpio, GPIO.LOW)
@@ -420,12 +420,11 @@ class Ui(QtWidgets.QMainWindow):
     def action_hold(self):
         try:
             if self.manual_mode:
-                print(f'pump {self.list_widget.currentRow()} START! -- {self.list_widget.currentItem().text()}')
                 self.statusbar.showMessage(f'PUMPE LÄUFT! -- {self.list_widget.currentItem().text()}')
-                print(self.pump_list[self.list_widget.currentRow()]['GPIO'])
                 GPIO.output(self.pump_list[self.list_widget.currentRow()]['GPIO'], GPIO.HIGH)
         except AttributeError:
             print("no selection!")
+            self.statusbar.showMessage('Please select pump!')
 
     def action_release(self):
         try:
